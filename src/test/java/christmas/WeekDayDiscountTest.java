@@ -12,10 +12,10 @@ public class WeekDayDiscountTest {
         //given
         Order order = new Order(Menu.T_BONE_STEAK, 1);
         Orders orders = new Orders(order);
-        WeekDayDiscount weekDayDiscount = new WeekDayDiscount(orders);
+        WeekDayDiscount weekDayDiscount = new WeekDayDiscount();
 
         //when
-        int amount = weekDayDiscount.discount();
+        int amount = weekDayDiscount.discount(orders);
 
         //then
         assertThat(amount).isEqualTo(0);
@@ -27,10 +27,10 @@ public class WeekDayDiscountTest {
         //given
         Order order = new Order(Menu.ICE_CREAM, 1);
         Orders orders = new Orders(order);
-        WeekDayDiscount weekDayDiscount = new WeekDayDiscount(orders);
+        WeekDayDiscount weekDayDiscount = new WeekDayDiscount();
 
         //when
-        int amount = weekDayDiscount.discount();
+        int amount = weekDayDiscount.discount(orders);
 
         //then
         assertThat(amount).isEqualTo(0);
@@ -43,10 +43,10 @@ public class WeekDayDiscountTest {
         Order first = new Order(Menu.ICE_CREAM, 2);
         Order second = new Order(Menu.CHOCOLATE_CAKE, 1);
         Orders orders = new Orders(first, second);
-        WeekDayDiscount weekDayDiscount = new WeekDayDiscount(orders);
+        WeekDayDiscount weekDayDiscount = new WeekDayDiscount();
 
         //when
-        int amount = weekDayDiscount.discount();
+        int amount = weekDayDiscount.discount(orders);
 
         //then
         assertThat(amount).isEqualTo(2023 * 3);
