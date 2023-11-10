@@ -7,6 +7,7 @@ public class Orders {
     private final List<Order> orders;
 
     public Orders(Order... orders) {
+        validateNotDuplicated(orders);
         this.orders = Arrays.asList(orders);
     }
 
@@ -19,6 +20,21 @@ public class Orders {
 
     public boolean totalAmountIsUnder(int number) {
         return totalAmount() < number;
+    }
+
+    private void validateNotDuplicated(Order[] orders) {
+        if (duplicated(orders)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private boolean duplicated(Order[] orders) {
+        List<Menu> menus = Arrays.stream(orders)
+                .map(Order::menu)
+                .toList();
+        return menus.size() != menus.stream()
+                .distinct()
+                .count();
     }
 
     private int totalAmount() {
