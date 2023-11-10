@@ -5,6 +5,7 @@ public class DDayDiscount {
     private final static int ADDEND = 100;
     private final static int FIRST_DAY = 1;
     private final static int LAST_DAY = 25;
+
     private final int date;
     public DDayDiscount(int date) {
         validate(date);
