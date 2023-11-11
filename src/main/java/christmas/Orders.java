@@ -8,8 +8,9 @@ public class Orders {
     private final List<Order> orders;
 
     public Orders(Order... orders) {
-        validateNotDuplicated(orders);
         validateSize(orders);
+        validateNotOnlyBeverage(orders);
+        validateNotDuplicated(orders);
         this.orders = Arrays.asList(orders);
     }
 
@@ -22,6 +23,29 @@ public class Orders {
 
     public boolean totalAmountIsUnder(int number) {
         return totalAmount() < number;
+    }
+
+    private void validateSize(Order[] orders) {
+        if (sumQuantity(orders) > MAXIMUM_SIZE) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private int sumQuantity(Order[] orders) {
+        return Arrays.stream(orders)
+                .mapToInt(Order::quantity)
+                .sum();
+    }
+
+    private void validateNotOnlyBeverage(Order[] orders) {
+        if (onlyBeverage(orders)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private boolean onlyBeverage(Order[] orders) {
+        return Arrays.stream(orders)
+                .noneMatch(order -> order.menu().getMenuType() != MenuType.BEVERAGE);
     }
 
     private void validateNotDuplicated(Order[] orders) {
@@ -37,18 +61,6 @@ public class Orders {
         return menus.size() != menus.stream()
                 .distinct()
                 .count();
-    }
-
-    private void validateSize(Order[] orders) {
-        if (sumQuantity(orders) > MAXIMUM_SIZE) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private int sumQuantity(Order[] orders) {
-        return Arrays.stream(orders)
-                .mapToInt(Order::quantity)
-                .sum();
     }
 
     private int totalAmount() {

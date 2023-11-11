@@ -27,4 +27,12 @@ public class OrdersTest {
         assertThatThrownBy(() -> new Orders(first, second, third, fourth, fifth, sixth))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @DisplayName("음료만 주문할 시 예외를 반환한다.")
+    @Test
+    void throw_Exception_If_Only_Beverage() {
+        Order first = new Order(Menu.CHAMPAGNE, 2);
+        assertThatThrownBy(() -> new Orders(first))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
