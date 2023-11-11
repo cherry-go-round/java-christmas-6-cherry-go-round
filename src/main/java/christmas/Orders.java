@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Orders {
+    private static final int MAXIMUM_SIZE = 20;
     private final List<Order> orders;
 
     public Orders(Order... orders) {
         validateNotDuplicated(orders);
+        validateSize(orders);
         this.orders = Arrays.asList(orders);
     }
 
@@ -35,6 +37,18 @@ public class Orders {
         return menus.size() != menus.stream()
                 .distinct()
                 .count();
+    }
+
+    private void validateSize(Order[] orders) {
+        if (sumQuantity(orders) > MAXIMUM_SIZE) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private int sumQuantity(Order[] orders) {
+        return Arrays.stream(orders)
+                .mapToInt(Order::quantity)
+                .sum();
     }
 
     private int totalAmount() {
