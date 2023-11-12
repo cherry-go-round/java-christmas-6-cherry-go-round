@@ -21,8 +21,10 @@ public class Orders {
                 .sum();
     }
 
-    public boolean totalAmountIsUnder(int number) {
-        return totalAmount() < number;
+    public int totalAmount() {
+        return orders.stream()
+                .mapToInt(order -> order.menu().getPrice() * order.quantity())
+                .sum();
     }
 
     private void validateSize(Order[] orders) {
@@ -61,11 +63,5 @@ public class Orders {
         return menus.size() != menus.stream()
                 .distinct()
                 .count();
-    }
-
-    private int totalAmount() {
-        return orders.stream()
-                .mapToInt(order -> order.menu().getPrice() * order.quantity())
-                .sum();
     }
 }

@@ -27,7 +27,7 @@ public class DiscountApplier {
     }
 
     private void checkTotalAmountAndSelectDiscount(Orders orders) {
-        if (!orders.totalAmountIsUnder(MINIMUM_TOTAL_AMOUNT)) {
+        if (orders.totalAmount() >= MINIMUM_TOTAL_AMOUNT) {
             dDayDiscount = selectdDayDiscount(reservationDate);
             weekDiscount = selectWeekDiscount(reservationDate);
             specialDiscount = selectSpecialDiscount(reservationDate);
