@@ -21,12 +21,16 @@ public class DiscountApplier {
     }
 
     public int totalDiscount(Orders orders) {
+        checkTotalAmountIsValid(orders);
+        return dDayDiscount.discount() + weekDiscount.discount(orders) + specialDiscount.discount();
+    }
+
+    private void checkTotalAmountIsValid(Orders orders) {
         if (!orders.totalAmountIsUnder(MINIMUM_TOTAL_AMOUNT)) {
             dDayDiscount = selectdDayDiscount(reservationDate);
             weekDiscount = selectWeekDiscount(reservationDate);
             specialDiscount = selectSpecialDiscount(reservationDate);
         }
-        return dDayDiscount.discount() + weekDiscount.discount(orders) + specialDiscount.discount();
     }
 
     private Discount selectdDayDiscount(LocalDate reservationDate) {
@@ -45,15 +49,15 @@ public class DiscountApplier {
         return new WeekDayDiscount();
     }
 
+    private boolean isWeekend(DayOfWeek dayOfWeek) {
+        return dayOfWeek == DayOfWeek.FRIDAY
+                || dayOfWeek == DayOfWeek.SATURDAY;
+    }
+
     private Discount selectSpecialDiscount(LocalDate reservationDate) {
         if (StarDay.contains(reservationDate)) {
             return new SpecialDiscount();
         }
         return new NoDiscount();
-    }
-
-    private boolean isWeekend(DayOfWeek dayOfWeek) {
-        return dayOfWeek == DayOfWeek.FRIDAY
-                || dayOfWeek == DayOfWeek.SATURDAY;
     }
 }
