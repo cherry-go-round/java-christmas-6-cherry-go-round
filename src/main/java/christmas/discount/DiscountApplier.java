@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 public class DiscountApplier {
     private static final int MINIMUM_TOTAL_AMOUNT = 10_000;
+    private static final NoDiscount NONE = new NoDiscount();
 
     private final LocalDate reservationDate;
     private Discount dDayDiscount;
@@ -15,17 +16,17 @@ public class DiscountApplier {
 
     public DiscountApplier(LocalDate reservationDate) {
         this.reservationDate = reservationDate;
-        this.dDayDiscount = new NoDiscount();
-        this.weekDiscount = new NoDiscount();
-        this.specialDiscount = new NoDiscount();
+        this.dDayDiscount = NONE;
+        this.weekDiscount = NONE;
+        this.specialDiscount = NONE;
     }
 
     public int totalDiscount(Orders orders) {
-        checkTotalAmountIsValid(orders);
+        checkTotalAmountAndSelectDiscount(orders);
         return dDayDiscount.discount() + weekDiscount.discount(orders) + specialDiscount.discount();
     }
 
-    private void checkTotalAmountIsValid(Orders orders) {
+    private void checkTotalAmountAndSelectDiscount(Orders orders) {
         if (!orders.totalAmountIsUnder(MINIMUM_TOTAL_AMOUNT)) {
             dDayDiscount = selectdDayDiscount(reservationDate);
             weekDiscount = selectWeekDiscount(reservationDate);
@@ -36,7 +37,7 @@ public class DiscountApplier {
     private Discount selectdDayDiscount(LocalDate reservationDate) {
         LocalDate lastDate = LocalDate.of(2023, 12, 25);
         if (reservationDate.isAfter(lastDate)) {
-            return new NoDiscount();
+            return NONE;
         }
         return new DDayDiscount(reservationDate);
     }
@@ -58,6 +59,6 @@ public class DiscountApplier {
         if (StarDay.contains(reservationDate)) {
             return new SpecialDiscount();
         }
-        return new NoDiscount();
+        return NONE;
     }
 }
