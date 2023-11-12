@@ -1,7 +1,10 @@
-package christmas;
+package christmas.discount;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import christmas.Menu;
+import christmas.Order;
+import christmas.Orders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

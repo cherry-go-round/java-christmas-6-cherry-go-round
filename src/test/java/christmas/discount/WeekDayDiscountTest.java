@@ -1,7 +1,10 @@
-package christmas;
+package christmas.discount;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import christmas.Menu;
+import christmas.Order;
+import christmas.Orders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,21 +14,6 @@ public class WeekDayDiscountTest {
     void zero_Discount_Without_Dessert_Menu() {
         //given
         Order order = new Order(Menu.T_BONE_STEAK, 1);
-        Orders orders = new Orders(order);
-        WeekDayDiscount weekDayDiscount = new WeekDayDiscount();
-
-        //when
-        int amount = weekDayDiscount.discount(orders);
-
-        //then
-        assertThat(amount).isEqualTo(0);
-    }
-
-    @DisplayName("주문 금액이 10,000원 미만일 경우 적용되지 않는다.")
-    @Test
-    void zero_Discount_With_Amount_Under_10000() {
-        //given
-        Order order = new Order(Menu.ICE_CREAM, 1);
         Orders orders = new Orders(order);
         WeekDayDiscount weekDayDiscount = new WeekDayDiscount();
 

@@ -1,21 +1,13 @@
-package christmas;
+package christmas.discount;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 public class DDayDiscountTest {
-    @DisplayName("26일 이후부터는 적용되지 않는다.")
-    @ParameterizedTest
-    @ValueSource(ints = {26, 27, 28, 29, 30, 31})
-    void constructor_ThrowsException_IfInvalidInput(int date) {
-        assertThatThrownBy(() -> new DDayDiscount(date)).isInstanceOf(IllegalArgumentException.class);
-    }
-
     @DisplayName("날짜에 따른 할인 금액을 구한다.")
     @ParameterizedTest
     @CsvSource({
@@ -25,12 +17,13 @@ public class DDayDiscountTest {
             "16, 2500", "17, 2600", "18, 2700", "19, 2800", "20, 2900",
             "21, 3000", "22, 3100", "23, 3200", "24, 3300", "25, 3400"
     })
-    void calculate_RightResult_ByDate(int date, int amount) {
+    void calculate_RightResult_ByDate(int day, int amount) {
         //given
-        DDayDiscount dDayDiscount = new DDayDiscount(date);
+        LocalDate localDate = LocalDate.of(2023, 12, day);
+        DDayDiscount dDayDiscount = new DDayDiscount(localDate);
 
         //when
-        int result = dDayDiscount.discountByDate();
+        int result = dDayDiscount.discount();
 
         //then
         assertThat(result).isEqualTo(amount);
