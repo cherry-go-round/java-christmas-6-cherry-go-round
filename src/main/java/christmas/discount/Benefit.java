@@ -5,7 +5,7 @@ import christmas.StarDay;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-public class DiscountApplier {
+public class Benefit {
     private static final int MINIMUM_TOTAL_AMOUNT = 10_000;
     private static final NoDiscount NONE = new NoDiscount();
 
@@ -14,7 +14,7 @@ public class DiscountApplier {
     private WeekDiscount weekDiscount;
     private Discount specialDiscount;
 
-    public DiscountApplier(LocalDate reservationDate) {
+    public Benefit(LocalDate reservationDate) {
         this.reservationDate = reservationDate;
         this.dDayDiscount = NONE;
         this.weekDiscount = NONE;
