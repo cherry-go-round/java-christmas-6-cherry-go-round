@@ -42,4 +42,21 @@ class BenefitTest {
         //then
         assertThat(totalDiscount).isEqualTo(0);
     }
+
+    @DisplayName("총주문 금액이 12만원 이상이면 증정한다.")
+    @Test
+    void when_Total_Amount_Is_Greater_Than_120000_Then_giveaway() {
+        //given
+        LocalDate christmas = LocalDate.of(2023, 12, 25);
+        Benefit benefit = new Benefit(christmas);
+
+        //when
+        //CHRISTMAS_PASTA: 25,000 * 6 = 150,000
+        Order order = new Order(Menu.CHRISTMAS_PASTA, 6);
+        Orders orders = new Orders(order);
+        boolean giveaway = benefit.giveaway(orders);
+
+        //then
+        assertThat(giveaway).isTrue();
+    }
 }

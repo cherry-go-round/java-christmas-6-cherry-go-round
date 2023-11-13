@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 public class Benefit {
     private static final int MINIMUM_TOTAL_AMOUNT = 10_000;
+    private static final int GIVEAWAY_AMOUNT = 120_000;
     private static final NoDiscount NONE = new NoDiscount();
 
     private final LocalDate reservationDate;
@@ -24,6 +25,10 @@ public class Benefit {
     public int totalDiscount(Orders orders) {
         checkTotalAmountAndSelectDiscount(orders);
         return dDayDiscount.discount() + weekDiscount.discount(orders) + specialDiscount.discount();
+    }
+
+    public boolean giveaway(Orders orders) {
+        return orders.totalAmount() >= GIVEAWAY_AMOUNT;
     }
 
     private void checkTotalAmountAndSelectDiscount(Orders orders) {
