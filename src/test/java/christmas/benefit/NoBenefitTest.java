@@ -3,19 +3,19 @@ package christmas.benefit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.BenefitDetail;
-import christmas.domain.benefit.NoDiscount;
+import christmas.domain.benefit.NoBenefit;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class NoDiscountTest {
+public class NoBenefitTest {
     @DisplayName("0원 할인")
     @Test
     void discount_1000() {
         //given
-        NoDiscount noDiscount = new NoDiscount();
+        NoBenefit noBenefit = new NoBenefit();
 
         //when
-        BenefitDetail detail = noDiscount.detail();
+        BenefitDetail detail = noBenefit.detail();
         int amount = detail.amount();
 
         //then

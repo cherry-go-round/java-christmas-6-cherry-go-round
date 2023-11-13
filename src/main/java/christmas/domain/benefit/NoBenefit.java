@@ -2,7 +2,7 @@ package christmas.domain.benefit;
 
 import christmas.domain.BenefitDetail;
 
-public class NoDiscount implements Benefit {
+public class NoBenefit implements Benefit {
 
     @Override
     public BenefitDetail detail() {

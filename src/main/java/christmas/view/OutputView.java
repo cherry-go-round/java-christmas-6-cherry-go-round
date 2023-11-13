@@ -10,6 +10,7 @@ public class OutputView {
     private static final String MENU_TITLE = "<주문 메뉴>";
     private static final String UNIT_OF_NUMBER = "개";
     private static final String UNIT_OF_MONEY = "원";
+    private static final String NONE = "없음";
     private static final DecimalFormat MONEY_FORMATTER = new DecimalFormat("###.###");
 
     public void printStartMessage() {
@@ -29,6 +30,15 @@ public class OutputView {
 
     public void printTotalAmountBeforeDiscount(int amount) {
         System.out.println(MONEY_FORMATTER.format(amount) + UNIT_OF_MONEY);
+    }
+
+    public void printGiveawayMenu(Map<String, Integer> giveawayComposition) {
+        giveawayComposition.keySet()
+                .forEach(name -> printMenuElements(name, giveawayComposition.get(name)));
+    }
+
+    public void printNone() {
+        System.out.println(NONE);
     }
 
     private void printMenuElements(String name, int number) {

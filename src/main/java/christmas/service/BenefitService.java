@@ -8,17 +8,19 @@ import christmas.domain.BenefitDetailsBuilder;
 import christmas.domain.benefit.Benefit;
 import christmas.domain.benefit.DDayDiscount;
 import christmas.domain.benefit.Giveaway;
-import christmas.domain.benefit.NoDiscount;
+import christmas.domain.benefit.NoBenefit;
 import christmas.domain.benefit.SpecialDiscount;
 import christmas.domain.benefit.WeekDayDiscount;
 import christmas.domain.benefit.WeekendDiscount;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class BenefitService {
     private static final int MINIMUM_TOTAL_AMOUNT = 10_000;
     private static final int GIVEAWAY_AMOUNT = 120_000;
-    private static final NoDiscount NONE = new NoDiscount();
+    private static final NoBenefit NONE = new NoBenefit();
 
     private final LocalDate reservationDate;
     private Benefit dDayDiscount = NONE;
@@ -28,6 +30,14 @@ public class BenefitService {
 
     public BenefitService(LocalDate reservationDate) {
         this.reservationDate = reservationDate;
+    }
+
+    public Map<String, Integer> getGiveawayComposition() {
+        if (giveaway instanceof NoBenefit) {
+            throw new NoSuchElementException();
+        }
+        Giveaway converted = (Giveaway) giveaway;
+        return converted.getGiveawayComposition();
     }
 
     public BenefitDetails getDetails(Orders orders) {
