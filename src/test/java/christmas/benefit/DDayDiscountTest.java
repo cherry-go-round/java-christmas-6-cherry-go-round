@@ -1,7 +1,9 @@
-package christmas.discount;
+package christmas.benefit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import christmas.domain.BenefitDetail;
+import christmas.domain.benefit.DDayDiscount;
 import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,7 +25,8 @@ public class DDayDiscountTest {
         DDayDiscount dDayDiscount = new DDayDiscount(localDate);
 
         //when
-        int result = dDayDiscount.discount();
+        BenefitDetail detail = dDayDiscount.detail();
+        int result = detail.amount();
 
         //then
         assertThat(result).isEqualTo(amount);

@@ -1,10 +1,13 @@
-package christmas.discount;
+package christmas.benefit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.Menu;
 import christmas.Order;
 import christmas.Orders;
+import christmas.domain.BenefitDetail;
+import christmas.domain.benefit.WeekDayDiscount;
+import christmas.domain.benefit.WeekendDiscount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,10 +18,11 @@ public class WeekendDiscountTest {
         //given
         Order order = new Order(Menu.CHOCOLATE_CAKE, 1);
         Orders orders = new Orders(order);
-        WeekendDiscount weekendDiscount = new WeekendDiscount();
+        WeekendDiscount weekendDiscount = new WeekendDiscount(orders);
 
         //when
-        int amount = weekendDiscount.discount(orders);
+        BenefitDetail detail = weekendDiscount.detail();
+        int amount = detail.amount();
 
         //then
         assertThat(amount).isEqualTo(0);
@@ -32,10 +36,11 @@ public class WeekendDiscountTest {
         Order second = new Order(Menu.BARBECUE_RIP, 1);
         Order third = new Order(Menu.CHOCOLATE_CAKE, 3);
         Orders orders = new Orders(first, second, third);
-        WeekDayDiscount weekDayDiscount = new WeekDayDiscount();
+        WeekDayDiscount weekDayDiscount = new WeekDayDiscount(orders);
 
         //when
-        int amount = weekDayDiscount.discount(orders);
+        BenefitDetail detail = weekDayDiscount.detail();
+        int amount = detail.amount();
 
         //then
         assertThat(amount).isEqualTo(2023 * 3);

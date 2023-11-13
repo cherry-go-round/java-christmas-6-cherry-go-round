@@ -1,26 +1,28 @@
-package christmas.discount;
+package christmas.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.Menu;
 import christmas.Order;
 import christmas.Orders;
+import christmas.domain.BenefitDetails;
 import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class BenefitTest {
+class BenefitServiceTest {
     @DisplayName("크리스마스 할인 예제")
     @Test
     void christmas_Discount_Test() {
         //given
         LocalDate christmas = LocalDate.of(2023, 12, 25);
-        Benefit benefit = new Benefit(christmas);
+        BenefitService benefitService = new BenefitService(christmas);
 
         //when
         Order order = new Order(Menu.CHOCOLATE_CAKE, 1);
         Orders orders = new Orders(order);
-        int totalDiscount = benefit.totalDiscount(orders);
+        BenefitDetails details = benefitService.getDetails(orders);
+        int totalDiscount = details.totalDiscount();
 
         //then
         //디데이 할인 3,400원 + 평일 할인 2,023원 + 특별 할인 1,000원 = 6,423원
@@ -32,12 +34,13 @@ class BenefitTest {
     void zero_Discount_If_Under_10_000() {
         //given
         LocalDate christmas = LocalDate.of(2023, 12, 25);
-        Benefit benefit = new Benefit(christmas);
+        BenefitService benefitService = new BenefitService(christmas);
 
         //when
         Order order = new Order(Menu.ICE_CREAM, 1);
         Orders orders = new Orders(order);
-        int totalDiscount = benefit.totalDiscount(orders);
+        BenefitDetails details = benefitService.getDetails(orders);
+        int totalDiscount = details.totalDiscount();
 
         //then
         assertThat(totalDiscount).isEqualTo(0);
@@ -48,15 +51,15 @@ class BenefitTest {
     void when_Total_Amount_Is_Greater_Than_120000_Then_giveaway() {
         //given
         LocalDate christmas = LocalDate.of(2023, 12, 25);
-        Benefit benefit = new Benefit(christmas);
+        BenefitService benefitService = new BenefitService(christmas);
 
         //when
         //CHRISTMAS_PASTA: 25,000 * 6 = 150,000
         Order order = new Order(Menu.CHRISTMAS_PASTA, 6);
         Orders orders = new Orders(order);
-        boolean giveaway = benefit.giveaway(orders);
+        BenefitDetails details = benefitService.getDetails(orders);
 
         //then
-        assertThat(giveaway).isTrue();
+        assertThat(details.totalDiscount()).isNotEqualTo(details.totalBenefit());
     }
 }
