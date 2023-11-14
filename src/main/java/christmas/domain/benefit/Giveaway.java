@@ -1,6 +1,7 @@
 package christmas.domain.benefit;
 
 import christmas.domain.menu.Menu;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,6 @@ public class Giveaway implements Benefit {
     public Map<String, Integer> getGiveawayComposition() {
         Map<String, Integer> giveawayComposition = new HashMap<>();
         giveawayComposition.put(GIVEAWAY_MENU.getName(), NUMBER_OF_GIVEAWAY);
-        return giveawayComposition;
+        return Collections.unmodifiableMap(giveawayComposition);
     }
 }
