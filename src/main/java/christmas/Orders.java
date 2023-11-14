@@ -7,11 +7,11 @@ public class Orders {
     private static final int MAXIMUM_SIZE = 20;
     private final List<Order> orders;
 
-    public Orders(Order... orders) {
+    public Orders(List<Order> orders) {
         validateSize(orders);
         validateNotOnlyBeverage(orders);
         validateNotDuplicated(orders);
-        this.orders = Arrays.asList(orders);
+        this.orders = orders;
     }
 
     public int countByType(MenuType menuType) {
@@ -27,37 +27,37 @@ public class Orders {
                 .sum();
     }
 
-    private void validateSize(Order[] orders) {
+    private void validateSize(List<Order> orders) {
         if (sumQuantity(orders) > MAXIMUM_SIZE) {
             throw new IllegalArgumentException();
         }
     }
 
-    private int sumQuantity(Order[] orders) {
-        return Arrays.stream(orders)
+    private int sumQuantity(List<Order> orders) {
+        return orders.stream()
                 .mapToInt(Order::quantity)
                 .sum();
     }
 
-    private void validateNotOnlyBeverage(Order[] orders) {
+    private void validateNotOnlyBeverage(List<Order> orders) {
         if (onlyBeverage(orders)) {
             throw new IllegalArgumentException();
         }
     }
 
-    private boolean onlyBeverage(Order[] orders) {
-        return Arrays.stream(orders)
+    private boolean onlyBeverage(List<Order> orders) {
+        return orders.stream()
                 .noneMatch(order -> order.menu().getMenuType() != MenuType.BEVERAGE);
     }
 
-    private void validateNotDuplicated(Order[] orders) {
+    private void validateNotDuplicated(List<Order> orders) {
         if (duplicated(orders)) {
             throw new IllegalArgumentException();
         }
     }
 
-    private boolean duplicated(Order[] orders) {
-        List<Menu> menus = Arrays.stream(orders)
+    private boolean duplicated(List<Order> orders) {
+        List<Menu> menus = orders.stream()
                 .map(Order::menu)
                 .toList();
         return menus.size() != menus.stream()

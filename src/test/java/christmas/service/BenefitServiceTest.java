@@ -7,6 +7,7 @@ import christmas.Order;
 import christmas.Orders;
 import christmas.domain.BenefitDetails;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ class BenefitServiceTest {
 
         //when
         Order order = new Order(Menu.CHOCOLATE_CAKE, 1);
-        Orders orders = new Orders(order);
+        Orders orders = new Orders(List.of(order));
         BenefitDetails details = benefitService.getDetails(christmas, orders);
         int totalDiscount = details.totalDiscount();
 
@@ -38,7 +39,7 @@ class BenefitServiceTest {
 
         //when
         Order order = new Order(Menu.ICE_CREAM, 1);
-        Orders orders = new Orders(order);
+        Orders orders = new Orders(List.of(order));
         BenefitDetails details = benefitService.getDetails(christmas, orders);
         int totalDiscount = details.totalDiscount();
 
@@ -56,7 +57,7 @@ class BenefitServiceTest {
         //when
         //CHRISTMAS_PASTA: 25,000 * 6 = 150,000
         Order order = new Order(Menu.CHRISTMAS_PASTA, 6);
-        Orders orders = new Orders(order);
+        Orders orders = new Orders(List.of(order));
         BenefitDetails details = benefitService.getDetails(christmas, orders);
 
         //then

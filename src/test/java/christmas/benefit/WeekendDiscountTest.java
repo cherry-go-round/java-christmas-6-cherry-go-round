@@ -8,6 +8,7 @@ import christmas.Orders;
 import christmas.domain.BenefitDetail;
 import christmas.domain.benefit.WeekDayDiscount;
 import christmas.domain.benefit.WeekendDiscount;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ public class WeekendDiscountTest {
     void zero_Discount_Without_Main_Menu() {
         //given
         Order order = new Order(Menu.CHOCOLATE_CAKE, 1);
-        Orders orders = new Orders(order);
+        Orders orders = new Orders(List.of(order));
         WeekendDiscount weekendDiscount = new WeekendDiscount(orders);
 
         //when
@@ -35,7 +36,7 @@ public class WeekendDiscountTest {
         Order first = new Order(Menu.T_BONE_STEAK, 2);
         Order second = new Order(Menu.BARBECUE_RIP, 1);
         Order third = new Order(Menu.CHOCOLATE_CAKE, 3);
-        Orders orders = new Orders(first, second, third);
+        Orders orders = new Orders(List.of(first, second, third));
         WeekDayDiscount weekDayDiscount = new WeekDayDiscount(orders);
 
         //when
