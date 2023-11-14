@@ -13,8 +13,8 @@ import christmas.domain.benefit.WeekDayDiscount;
 import christmas.domain.benefit.WeekendDiscount;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 public class BenefitService {
     private static final int MINIMUM_TOTAL_AMOUNT = 10_000;
@@ -26,9 +26,10 @@ public class BenefitService {
     private Benefit specialDiscount = NONE;
     private Benefit giveaway = NONE;
 
-    public Map<String, Integer> getGiveawayComposition() {
+    public Map<String, Integer> getGiveawayComposition(Orders orders) {
+        judgeGiveaway(orders);
         if (giveaway instanceof NoBenefit) {
-            throw new NoSuchElementException();
+            return Collections.emptyMap();
         }
         Giveaway converted = (Giveaway) giveaway;
         return converted.getGiveawayComposition();

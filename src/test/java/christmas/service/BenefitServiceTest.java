@@ -1,6 +1,7 @@
 package christmas.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 
 import christmas.Menu;
 import christmas.Order;
@@ -8,6 +9,7 @@ import christmas.Orders;
 import christmas.domain.AllBenefits;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -62,5 +64,21 @@ class BenefitServiceTest {
 
         //then
         assertThat(details.totalDiscount()).isNotEqualTo(details.totalBenefit());
+    }
+
+    @Test
+    void getGiveawayComposition() {
+        //given
+        BenefitService benefitService = new BenefitService();
+
+        //when
+        //CHRISTMAS_PASTA: 25,000 * 6 = 150,000
+        Order order = new Order(Menu.CHRISTMAS_PASTA, 6);
+        Orders orders = new Orders(List.of(order));
+        Map<String, Integer> giveawayComposition = benefitService.getGiveawayComposition(orders);
+
+        //then
+        assertThat(giveawayComposition)
+                .contains(entry("샴페인", 1));
     }
 }

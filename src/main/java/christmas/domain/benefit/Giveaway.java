@@ -17,7 +17,7 @@ public class Giveaway implements Benefit {
 
     public Map<String, Integer> getGiveawayComposition() {
         Map<String, Integer> giveawayComposition = new HashMap<>();
-        giveawayComposition.put(GIVEAWAY_MENU.name(), NUMBER_OF_GIVEAWAY);
+        giveawayComposition.put(GIVEAWAY_MENU.getName(), NUMBER_OF_GIVEAWAY);
         return giveawayComposition;
     }
 }
