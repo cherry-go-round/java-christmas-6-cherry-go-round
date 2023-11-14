@@ -22,15 +22,10 @@ public class BenefitService {
     private static final int GIVEAWAY_AMOUNT = 120_000;
     private static final NoBenefit NONE = new NoBenefit();
 
-    private final LocalDate reservationDate;
     private Benefit dDayDiscount = NONE;
     private Benefit weekDiscount = NONE;
     private Benefit specialDiscount = NONE;
     private Benefit giveaway = NONE;
-
-    public BenefitService(LocalDate reservationDate) {
-        this.reservationDate = reservationDate;
-    }
 
     public Map<String, Integer> getGiveawayComposition() {
         if (giveaway instanceof NoBenefit) {
@@ -40,8 +35,8 @@ public class BenefitService {
         return converted.getGiveawayComposition();
     }
 
-    public BenefitDetails getDetails(Orders orders) {
-        checkTotalAmountAndDecideDiscount(orders);
+    public BenefitDetails getDetails(LocalDate reservationDate, Orders orders) {
+        checkTotalAmountAndDecideDiscount(reservationDate, orders);
         BenefitDetail dDayDiscountDetail = dDayDiscount.detail();
         BenefitDetail weekDayDiscountDetail = weekDiscount.detail();
         BenefitDetail specialDiscountDetail = specialDiscount.detail();
@@ -57,7 +52,7 @@ public class BenefitService {
                 .build();
     }
 
-    private void checkTotalAmountAndDecideDiscount(Orders orders) {
+    private void checkTotalAmountAndDecideDiscount(LocalDate reservationDate, Orders orders) {
         if (orders.totalAmount() >= MINIMUM_TOTAL_AMOUNT) {
             decideDDayDiscount(reservationDate);
             decideWeekDiscount(reservationDate, orders);

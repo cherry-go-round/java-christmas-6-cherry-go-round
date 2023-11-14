@@ -16,12 +16,12 @@ class BenefitServiceTest {
     void christmas_Discount_Test() {
         //given
         LocalDate christmas = LocalDate.of(2023, 12, 25);
-        BenefitService benefitService = new BenefitService(christmas);
+        BenefitService benefitService = new BenefitService();
 
         //when
         Order order = new Order(Menu.CHOCOLATE_CAKE, 1);
         Orders orders = new Orders(order);
-        BenefitDetails details = benefitService.getDetails(orders);
+        BenefitDetails details = benefitService.getDetails(christmas, orders);
         int totalDiscount = details.totalDiscount();
 
         //then
@@ -34,12 +34,12 @@ class BenefitServiceTest {
     void zero_Discount_If_Under_10_000() {
         //given
         LocalDate christmas = LocalDate.of(2023, 12, 25);
-        BenefitService benefitService = new BenefitService(christmas);
+        BenefitService benefitService = new BenefitService();
 
         //when
         Order order = new Order(Menu.ICE_CREAM, 1);
         Orders orders = new Orders(order);
-        BenefitDetails details = benefitService.getDetails(orders);
+        BenefitDetails details = benefitService.getDetails(christmas, orders);
         int totalDiscount = details.totalDiscount();
 
         //then
@@ -51,13 +51,13 @@ class BenefitServiceTest {
     void when_Total_Amount_Is_Greater_Than_120000_Then_giveaway() {
         //given
         LocalDate christmas = LocalDate.of(2023, 12, 25);
-        BenefitService benefitService = new BenefitService(christmas);
+        BenefitService benefitService = new BenefitService();
 
         //when
         //CHRISTMAS_PASTA: 25,000 * 6 = 150,000
         Order order = new Order(Menu.CHRISTMAS_PASTA, 6);
         Orders orders = new Orders(order);
-        BenefitDetails details = benefitService.getDetails(orders);
+        BenefitDetails details = benefitService.getDetails(christmas, orders);
 
         //then
         assertThat(details.totalDiscount()).isNotEqualTo(details.totalBenefit());
