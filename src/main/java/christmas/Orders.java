@@ -1,7 +1,8 @@
 package christmas;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Orders {
     private static final int MAXIMUM_SIZE = 20;
@@ -12,6 +13,12 @@ public class Orders {
         validateNotOnlyBeverage(orders);
         validateNotDuplicated(orders);
         this.orders = orders;
+    }
+
+    public Map<String, Integer> orderedMenu() {
+        Map<String, Integer> map = new HashMap<>();
+        orders.forEach(order -> map.put(order.menu().getName(), order.quantity()));
+        return map;
     }
 
     public int countByType(MenuType menuType) {

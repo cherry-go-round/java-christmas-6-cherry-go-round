@@ -1,8 +1,11 @@
 package christmas;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.entry;
 
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -35,5 +38,50 @@ public class OrdersTest {
         Order first = new Order(Menu.CHAMPAGNE, 2);
         assertThatThrownBy(() -> new Orders(List.of(first)))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("orderedMenu가 알맞은 map을 반환한다.")
+    @Test
+    void orderedMenuTest() {
+        //given
+        Order order = new Order(Menu.T_BONE_STEAK, 2);
+        Orders orders = new Orders(List.of(order));
+
+        //when
+        Map<String, Integer> orderedMenu = orders.orderedMenu();
+
+        //then
+        assertThat(orderedMenu).hasSize(1)
+                .contains(entry("티본스테이크", 2));
+    }
+
+    @DisplayName("메뉴 종류에 따른 개수를 센다.")
+    @Test
+    void countByTypeTest() {
+        //given
+        Order order = new Order(Menu.T_BONE_STEAK, 2);
+        Orders orders = new Orders(List.of(order));
+
+        //when
+        int count = orders.countByType(MenuType.MAIN);
+
+        //then
+        assertThat(count).isEqualTo(2);
+    }
+
+    @DisplayName("메뉴의 총가격을 구한다.")
+    @Test
+    void totalAmountTest() {
+        //given
+        Order steak = new Order(Menu.T_BONE_STEAK, 2);
+        Order iceCream = new Order(Menu.ICE_CREAM, 2);
+        Orders orders = new Orders(List.of(steak, iceCream));
+
+        //when
+        int totalAmount = orders.totalAmount();
+
+        //then
+        // 55,000 * 2 + 5,000 * 2 = 120,000
+        assertThat(totalAmount).isEqualTo(120_000);
     }
 }
