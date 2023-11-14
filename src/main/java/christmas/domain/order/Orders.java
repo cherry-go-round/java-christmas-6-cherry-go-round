@@ -3,6 +3,7 @@ package christmas.domain.order;
 import christmas.domain.menu.Menu;
 import christmas.domain.menu.MenuType;
 import christmas.util.ErrorMessage;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +20,9 @@ public class Orders {
     }
 
     public Map<String, Integer> orderedMenu() {
-        Map<String, Integer> map = new HashMap<>();
-        orders.forEach(order -> map.put(order.menu().getName(), order.quantity()));
-        return map;
+        Map<String, Integer> orderedMenu = new HashMap<>();
+        orders.forEach(order -> orderedMenu.put(order.menu().getName(), order.quantity()));
+        return Collections.unmodifiableMap(orderedMenu);
     }
 
     public int countByType(MenuType menuType) {
