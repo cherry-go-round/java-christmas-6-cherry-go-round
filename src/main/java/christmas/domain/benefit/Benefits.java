@@ -3,14 +3,14 @@ package christmas.domain.benefit;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AllBenefits {
+public class Benefits {
     Benefit dDayDiscount;
     Benefit weekDiscount;
     Benefit specialDiscount;
     Benefit giveaway;
 
-    public AllBenefits(Benefit dDayDiscount, Benefit weekDiscount,
-                       Benefit specialDiscount, Benefit giveaway) {
+    public Benefits(Benefit dDayDiscount, Benefit weekDiscount,
+                    Benefit specialDiscount, Benefit giveaway) {
         this.dDayDiscount = dDayDiscount;
         this.weekDiscount = weekDiscount;
         this.specialDiscount = specialDiscount;

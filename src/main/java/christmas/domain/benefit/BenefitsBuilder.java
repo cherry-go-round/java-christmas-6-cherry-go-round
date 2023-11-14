@@ -1,32 +1,32 @@
 package christmas.domain.benefit;
 
-public class AllBenefitsBuilder {
+public class BenefitsBuilder {
     private Benefit dDayDiscount;
     private Benefit weekDiscount;
     private Benefit specialDiscount;
     private Benefit giveaway;
 
-    public AllBenefitsBuilder dDayDiscount(Benefit dDayDiscount) {
+    public BenefitsBuilder dDayDiscount(Benefit dDayDiscount) {
         this.dDayDiscount = dDayDiscount;
         return this;
     }
 
-    public AllBenefitsBuilder weekDiscount(Benefit weekDiscount) {
+    public BenefitsBuilder weekDiscount(Benefit weekDiscount) {
         this.weekDiscount = weekDiscount;
         return this;
     }
 
-    public AllBenefitsBuilder specialDiscount(Benefit specialDiscount) {
+    public BenefitsBuilder specialDiscount(Benefit specialDiscount) {
         this.specialDiscount = specialDiscount;
         return this;
     }
 
-    public AllBenefitsBuilder giveaway(Benefit giveaway) {
+    public BenefitsBuilder giveaway(Benefit giveaway) {
         this.giveaway = giveaway;
         return this;
     }
 
-    public AllBenefits build() {
-        return new AllBenefits(dDayDiscount, weekDiscount, specialDiscount, giveaway);
+    public Benefits build() {
+        return new Benefits(dDayDiscount, weekDiscount, specialDiscount, giveaway);
     }
 }

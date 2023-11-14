@@ -1,16 +1,8 @@
-package christmas.domain;
+package christmas.domain.benefit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
-import christmas.domain.benefit.AllBenefits;
-import christmas.domain.benefit.AllBenefitsBuilder;
-import christmas.domain.benefit.Benefit;
-import christmas.domain.benefit.DDayDiscount;
-import christmas.domain.benefit.Giveaway;
-import christmas.domain.benefit.NoBenefit;
-import christmas.domain.benefit.SpecialDiscount;
-import christmas.domain.benefit.WeekDayDiscount;
 import christmas.domain.menu.Menu;
 import christmas.domain.order.Order;
 import christmas.domain.order.Orders;
@@ -33,14 +25,14 @@ class BenefitDetailsTest {
         SpecialDiscount specialDiscount = new SpecialDiscount();
         Giveaway giveaway = new Giveaway();
 
-        AllBenefits allBenefits = new AllBenefitsBuilder().dDayDiscount(dDayDiscount)
+        Benefits benefits = new BenefitsBuilder().dDayDiscount(dDayDiscount)
                 .weekDiscount(weekDayDiscount)
                 .specialDiscount(specialDiscount)
                 .giveaway(giveaway)
                 .build();
 
         //when
-        Map<String, Integer> details = allBenefits.getDetails();
+        Map<String, Integer> details = benefits.getDetails();
 
         //then
         assertThat(details).hasSize(4)
@@ -62,7 +54,7 @@ class BenefitDetailsTest {
         Benefit specialDiscount = new NoBenefit();
         Benefit giveaway = new NoBenefit();
 
-        AllBenefits allBenefits = new AllBenefitsBuilder().dDayDiscount(dDayDiscount)
+        Benefits allBenefits = new BenefitsBuilder().dDayDiscount(dDayDiscount)
                 .weekDiscount(weekDayDiscount)
                 .specialDiscount(specialDiscount)
                 .giveaway(giveaway)

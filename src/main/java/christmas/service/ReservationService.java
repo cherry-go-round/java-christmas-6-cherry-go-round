@@ -1,8 +1,8 @@
 package christmas.service;
 
-import christmas.domain.benefit.AllBenefits;
-import christmas.domain.benefit.AllBenefitsBuilder;
 import christmas.domain.benefit.Benefit;
+import christmas.domain.benefit.Benefits;
+import christmas.domain.benefit.BenefitsBuilder;
 import christmas.domain.benefit.DDayDiscount;
 import christmas.domain.benefit.Giveaway;
 import christmas.domain.benefit.NoBenefit;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
 
-public class Service {
+public class ReservationService {
     private static final int MINIMUM_TOTAL_AMOUNT = 10_000;
     private static final int GIVEAWAY_AMOUNT = 120_000;
     private static final NoBenefit NONE = new NoBenefit();
@@ -29,7 +29,7 @@ public class Service {
     private final Benefit specialDiscount;
     private final Benefit giveaway;
 
-    public Service(LocalDate reservationDate, Orders orders) {
+    public ReservationService(LocalDate reservationDate, Orders orders) {
         this.reservationDate = reservationDate;
         this.orders = orders;
 
@@ -55,8 +55,8 @@ public class Service {
         return converted.getGiveawayComposition();
     }
 
-    public AllBenefits getDetails() {
-        return new AllBenefitsBuilder()
+    public Benefits allBenefits() {
+        return new BenefitsBuilder()
                 .dDayDiscount(dDayDiscount)
                 .weekDiscount(weekDiscount)
                 .specialDiscount(specialDiscount)

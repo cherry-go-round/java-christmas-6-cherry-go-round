@@ -61,5 +61,4 @@ public class BadgeProviderTest {
         //then
         assertThat(badge).isEqualTo(Badge.NONE);
     }
-
 }

@@ -2,11 +2,12 @@ package christmas.controller;
 
 import christmas.domain.badge.Badge;
 import christmas.domain.badge.BadgeProvider;
-import christmas.domain.benefit.AllBenefits;
+import christmas.domain.benefit.Benefits;
 import christmas.domain.date.EventDate;
 import christmas.domain.order.OrderParser;
 import christmas.domain.order.Orders;
-import christmas.service.Service;
+import christmas.service.BenefitsService;
+import christmas.service.ReservationService;
 import christmas.util.ErrorOutput;
 import christmas.view.InputView;
 import christmas.view.OutputView;
@@ -17,7 +18,8 @@ import java.util.function.Supplier;
 public class Controller {
     private final InputView inputView;
     private final OutputView outputView;
-    private Service service;
+    private ReservationService reservationService;
+    private BenefitsService benefitsService;
 
     public Controller(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -31,60 +33,59 @@ public class Controller {
         printTotalAmountBeforeDiscount();
         printGiveaway();
 
-        AllBenefits benefits = service.getDetails();
+        Benefits benefits = reservationService.allBenefits();
+        benefitsService = new BenefitsService(benefits);
 
-        printBenefitDetails(benefits);
-        printTotalBenefitAmount(benefits);
-        printAmountAfterDiscount(benefits);
-        printBadge(benefits);
+        printBenefitDetails();
+        printTotalBenefitAmount();
+        printAmountAfterDiscount();
+        printBadge();
     }
 
     private void setup() {
         outputView.printStartMessage();
         LocalDate reservationDate = finallyGet(this::readDate);
-
         Orders orders = finallyGet(this::readOrders);
-
-        service = new Service(reservationDate, orders);
+        reservationService = new ReservationService(reservationDate, orders);
 
         outputView.printResultTitle(reservationDate);
     }
 
     private void printMenu() {
-        Map<String, Integer> orderedMenu = service.orderedMenu();
+        Map<String, Integer> orderedMenu = reservationService.orderedMenu();
         outputView.printMenu(orderedMenu);
     }
 
     private void printTotalAmountBeforeDiscount() {
-        int totalAmount = service.totalAmount();
+        int totalAmount = reservationService.totalAmount();
         outputView.printTotalAmountBeforeDiscount(totalAmount);
     }
 
     private void printGiveaway() {
-        Map<String, Integer> giveawayComposition = service.getGiveawayComposition();
+        Map<String, Integer> giveawayComposition = reservationService.getGiveawayComposition();
         outputView.printGiveawayMenu(giveawayComposition);
     }
 
-    private void printBenefitDetails(AllBenefits benefits) {
-        Map<String, Integer> details = benefits.getDetails();
+    private void printBenefitDetails() {
+        Map<String, Integer> details = benefitsService.getDetails();
         outputView.printBenefitDetails(details);
     }
 
-    private void printTotalBenefitAmount(AllBenefits benefits) {
-        int totalBenefit = benefits.totalBenefit();
+    private void printTotalBenefitAmount() {
+        int totalBenefit = benefitsService.totalBenefit();
         outputView.printTotalBenefitAmount(totalBenefit);
     }
 
-    private void printAmountAfterDiscount(AllBenefits benefits) {
-        int totalAmount = service.totalAmount();
-        int totalDiscount = benefits.totalDiscount();
+    private void printAmountAfterDiscount() {
+        int totalAmount = reservationService.totalAmount();
+        int totalDiscount = benefitsService.totalDiscount();
         int expectedAmount = totalAmount - totalDiscount;
         outputView.printExpectedAmountAfterDiscount(expectedAmount);
     }
 
-    private void printBadge(AllBenefits benefits) {
+    private void printBadge() {
         BadgeProvider badgeProvider = new BadgeProvider();
-        Badge badge = badgeProvider.provide(benefits.totalBenefit());
+        Badge badge = badgeProvider.provide(benefitsService.totalBenefit());
         outputView.printBadge(badge.getName());
     }
 
