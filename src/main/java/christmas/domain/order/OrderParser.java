@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 
 public class OrderParser {
     private static final int MINIMUM_MENU_NUMBER = 1;
+
     public Orders convert(String input) {
         String[] orderPairs = input.split(",");
         List<Order> orderItems = Arrays.stream(orderPairs)
