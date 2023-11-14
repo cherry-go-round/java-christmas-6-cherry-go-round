@@ -29,7 +29,6 @@ public class Service {
     private final Benefit specialDiscount;
     private final Benefit giveaway;
 
-
     public Service(LocalDate reservationDate, Orders orders) {
         this.reservationDate = reservationDate;
         this.orders = orders;
