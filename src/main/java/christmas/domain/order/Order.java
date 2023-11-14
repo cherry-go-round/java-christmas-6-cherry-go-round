@@ -1,4 +1,6 @@
-package christmas;
+package christmas.domain.order;
+
+import christmas.domain.menu.Menu;
 
 public record Order(Menu menu, int quantity) {
     private static final int MIN_QUANTITY = 1;

@@ -1,8 +1,7 @@
 package christmas.domain.benefit;
 
-import christmas.MenuType;
-import christmas.Orders;
-import christmas.domain.BenefitDetail;
+import christmas.domain.menu.MenuType;
+import christmas.domain.order.Orders;
 
 public class WeekendDiscount implements Benefit {
     private static final String NAME = "주말 할인";

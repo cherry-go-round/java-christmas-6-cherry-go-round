@@ -1,11 +1,11 @@
 package christmas.controller;
 
-import christmas.EventDate;
-import christmas.OrderParser;
-import christmas.Orders;
-import christmas.domain.Badge;
-import christmas.domain.BadgeProvider;
-import christmas.domain.AllBenefits;
+import christmas.domain.badge.Badge;
+import christmas.domain.badge.BadgeProvider;
+import christmas.domain.benefit.AllBenefits;
+import christmas.domain.date.EventDate;
+import christmas.domain.order.OrderParser;
+import christmas.domain.order.Orders;
 import christmas.service.BenefitService;
 import christmas.view.InputView;
 import christmas.view.OutputView;

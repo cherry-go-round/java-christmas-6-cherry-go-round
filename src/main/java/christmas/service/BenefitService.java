@@ -1,9 +1,7 @@
 package christmas.service;
 
-import christmas.Orders;
-import christmas.StarDay;
-import christmas.domain.AllBenefitsBuilder;
-import christmas.domain.AllBenefits;
+import christmas.domain.benefit.AllBenefits;
+import christmas.domain.benefit.AllBenefitsBuilder;
 import christmas.domain.benefit.Benefit;
 import christmas.domain.benefit.DDayDiscount;
 import christmas.domain.benefit.Giveaway;
@@ -11,6 +9,8 @@ import christmas.domain.benefit.NoBenefit;
 import christmas.domain.benefit.SpecialDiscount;
 import christmas.domain.benefit.WeekDayDiscount;
 import christmas.domain.benefit.WeekendDiscount;
+import christmas.domain.date.StarDay;
+import christmas.domain.order.Orders;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Collections;

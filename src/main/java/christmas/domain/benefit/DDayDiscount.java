@@ -1,6 +1,5 @@
 package christmas.domain.benefit;
 
-import christmas.domain.BenefitDetail;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 

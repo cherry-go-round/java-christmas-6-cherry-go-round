@@ -1,13 +1,10 @@
-package christmas.benefit;
+package christmas.domain.benefit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.Menu;
-import christmas.Order;
-import christmas.Orders;
-import christmas.domain.BenefitDetail;
-import christmas.domain.benefit.WeekDayDiscount;
-import christmas.domain.benefit.WeekendDiscount;
+import christmas.domain.menu.Menu;
+import christmas.domain.order.Order;
+import christmas.domain.order.Orders;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

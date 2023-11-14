@@ -1,6 +1,4 @@
-package christmas.domain;
-
-import christmas.domain.benefit.Benefit;
+package christmas.domain.benefit;
 
 public class AllBenefitsBuilder {
     private Benefit dDayDiscount;

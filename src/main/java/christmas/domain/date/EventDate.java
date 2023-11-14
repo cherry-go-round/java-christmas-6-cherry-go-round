@@ -1,4 +1,4 @@
-package christmas;
+package christmas.domain.date;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;

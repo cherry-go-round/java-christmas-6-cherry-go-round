@@ -1,4 +1,4 @@
-package christmas.domain;
+package christmas.domain.badge;
 
 public class BadgeProvider {
     public Badge provide(int amount) {

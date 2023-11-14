@@ -1,4 +1,4 @@
-package christmas;
+package christmas.domain.menu;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;

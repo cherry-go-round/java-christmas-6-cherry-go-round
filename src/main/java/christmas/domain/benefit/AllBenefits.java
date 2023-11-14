@@ -1,7 +1,5 @@
-package christmas.domain;
+package christmas.domain.benefit;
 
-import christmas.domain.benefit.Benefit;
-import christmas.domain.benefit.NoBenefit;
 import java.util.HashMap;
 import java.util.Map;
 

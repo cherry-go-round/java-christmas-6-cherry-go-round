@@ -3,10 +3,10 @@ package christmas.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
-import christmas.Menu;
-import christmas.Order;
-import christmas.Orders;
-import christmas.domain.AllBenefits;
+import christmas.domain.benefit.AllBenefits;
+import christmas.domain.menu.Menu;
+import christmas.domain.order.Order;
+import christmas.domain.order.Orders;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
