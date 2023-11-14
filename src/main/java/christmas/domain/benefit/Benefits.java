@@ -28,14 +28,6 @@ public class Benefits {
         return details;
     }
 
-    private void putBenefitDetails(Map<String, Integer> details, Benefit benefit) {
-        if (benefit instanceof NoBenefit) {
-            return;
-        }
-        BenefitDetail benefitDetail = benefit.detail();
-        details.put(benefitDetail.name(), benefitDetail.amount());
-    }
-
     public int totalDiscount() {
         BenefitDetail dDayDiscountDetail = dDayDiscount.detail();
         BenefitDetail weekDiscountDetail = weekDiscount.detail();
@@ -46,5 +38,13 @@ public class Benefits {
     public int totalBenefit() {
         BenefitDetail giveawayDetail = giveaway.detail();
         return totalDiscount() + giveawayDetail.amount();
+    }
+
+    private void putBenefitDetails(Map<String, Integer> details, Benefit benefit) {
+        if (benefit instanceof NoBenefit) {
+            return;
+        }
+        BenefitDetail benefitDetail = benefit.detail();
+        details.put(benefitDetail.name(), benefitDetail.amount());
     }
 }
