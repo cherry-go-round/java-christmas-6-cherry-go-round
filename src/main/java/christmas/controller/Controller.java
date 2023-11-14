@@ -27,22 +27,15 @@ public class Controller {
         setup();
 
         printMenu();
-
         printTotalAmountBeforeDiscount();
-
         printGiveaway();
 
         AllBenefits benefits = service.getDetails();
 
         printBenefitDetails(benefits);
-
         printTotalBenefitAmount(benefits);
-
         printAmountAfterDiscount(benefits);
-
-        BadgeProvider badgeProvider = new BadgeProvider();
-        Badge badge = badgeProvider.provide(benefits.totalBenefit());
-        outputView.printBadge(badge.getName());
+        printBadge(benefits);
     }
 
     private void setup() {
@@ -90,6 +83,17 @@ public class Controller {
         outputView.printExpectedAmountAfterDiscount(expectedAmount);
     }
 
+    private LocalDate readDate() {
+        int dayOfReservation = inputView.readDate();
+        return EventDate.convert(dayOfReservation);
+    }
+
+    private void printBadge(AllBenefits benefits) {
+        BadgeProvider badgeProvider = new BadgeProvider();
+        Badge badge = badgeProvider.provide(benefits.totalBenefit());
+        outputView.printBadge(badge.getName());
+    }
+
     private <T> T finallyGet(Supplier<T> supplier) {
         while (true) {
             try {
@@ -97,10 +101,5 @@ public class Controller {
             } catch (IllegalArgumentException ignored) {
             }
         }
-    }
-
-    private LocalDate readDate() {
-        int dayOfReservation = inputView.readDate();
-        return EventDate.convert(dayOfReservation);
     }
 }
