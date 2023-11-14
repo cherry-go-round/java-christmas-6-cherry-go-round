@@ -2,9 +2,8 @@ package christmas.service;
 
 import christmas.Orders;
 import christmas.StarDay;
-import christmas.domain.BenefitDetail;
-import christmas.domain.BenefitDetails;
-import christmas.domain.BenefitDetailsBuilder;
+import christmas.domain.AllBenefitsBuilder;
+import christmas.domain.AllBenefits;
 import christmas.domain.benefit.Benefit;
 import christmas.domain.benefit.DDayDiscount;
 import christmas.domain.benefit.Giveaway;
@@ -35,20 +34,16 @@ public class BenefitService {
         return converted.getGiveawayComposition();
     }
 
-    public BenefitDetails getDetails(LocalDate reservationDate, Orders orders) {
+    public AllBenefits getDetails(LocalDate reservationDate, Orders orders) {
         checkTotalAmountAndDecideDiscount(reservationDate, orders);
-        BenefitDetail dDayDiscountDetail = dDayDiscount.detail();
-        BenefitDetail weekDayDiscountDetail = weekDiscount.detail();
-        BenefitDetail specialDiscountDetail = specialDiscount.detail();
 
         judgeGiveaway(orders);
-        BenefitDetail giveawayDetail = giveaway.detail();
 
-        return new BenefitDetailsBuilder()
-                .dDay(dDayDiscountDetail)
-                .weekDay(weekDayDiscountDetail)
-                .special(specialDiscountDetail)
-                .giveaway(giveawayDetail)
+        return new AllBenefitsBuilder()
+                .dDayDiscount(dDayDiscount)
+                .weekDiscount(weekDiscount)
+                .specialDiscount(specialDiscount)
+                .giveaway(giveaway)
                 .build();
     }
 

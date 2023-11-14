@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import christmas.Menu;
 import christmas.Order;
 import christmas.Orders;
-import christmas.domain.BenefitDetails;
+import christmas.domain.AllBenefits;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +22,7 @@ class BenefitServiceTest {
         //when
         Order order = new Order(Menu.CHOCOLATE_CAKE, 1);
         Orders orders = new Orders(List.of(order));
-        BenefitDetails details = benefitService.getDetails(christmas, orders);
+        AllBenefits details = benefitService.getDetails(christmas, orders);
         int totalDiscount = details.totalDiscount();
 
         //then
@@ -40,7 +40,7 @@ class BenefitServiceTest {
         //when
         Order order = new Order(Menu.ICE_CREAM, 1);
         Orders orders = new Orders(List.of(order));
-        BenefitDetails details = benefitService.getDetails(christmas, orders);
+        AllBenefits details = benefitService.getDetails(christmas, orders);
         int totalDiscount = details.totalDiscount();
 
         //then
@@ -58,7 +58,7 @@ class BenefitServiceTest {
         //CHRISTMAS_PASTA: 25,000 * 6 = 150,000
         Order order = new Order(Menu.CHRISTMAS_PASTA, 6);
         Orders orders = new Orders(List.of(order));
-        BenefitDetails details = benefitService.getDetails(christmas, orders);
+        AllBenefits details = benefitService.getDetails(christmas, orders);
 
         //then
         assertThat(details.totalDiscount()).isNotEqualTo(details.totalBenefit());
