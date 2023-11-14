@@ -2,6 +2,7 @@ package christmas.domain.order;
 
 import christmas.domain.menu.Menu;
 import christmas.domain.menu.MenuType;
+import christmas.util.ErrorMessage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class Orders {
 
     private void validateSize(List<Order> orders) {
         if (sumQuantity(orders) > MAXIMUM_SIZE) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ErrorMessage.MAXIMUM_ORDER_LIMIT.getMessage());
         }
     }
 
@@ -50,7 +51,7 @@ public class Orders {
 
     private void validateNotOnlyBeverage(List<Order> orders) {
         if (onlyBeverage(orders)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ErrorMessage.ONLY_BEVERAGE.getMessage());
         }
     }
 
@@ -61,7 +62,7 @@ public class Orders {
 
     private void validateNotDuplicated(List<Order> orders) {
         if (duplicated(orders)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
         }
     }
 

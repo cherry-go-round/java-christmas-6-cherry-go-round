@@ -1,11 +1,13 @@
 package christmas.domain.order;
 
 import christmas.domain.menu.Menu;
+import christmas.util.ErrorMessage;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class OrderParser {
+    private static final int MINIMUM_MENU_NUMBER = 1;
     public Orders convert(String input) {
         String[] orderPairs = input.split(",");
         List<Order> orderItems = Arrays.stream(orderPairs)
@@ -23,13 +25,14 @@ public class OrderParser {
 
         String menuNumber = split[1];
         int parsedNumber = parseInt(menuNumber);
+        validateNumber(parsedNumber);
 
         return new Order(menu, parsedNumber);
     }
 
     private void validateSize(String[] split) {
         if (split.length != 2) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
         }
     }
 
@@ -37,7 +40,7 @@ public class OrderParser {
         try {
             return Menu.find(menuName);
         } catch (NoSuchElementException e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
         }
     }
 
@@ -45,7 +48,13 @@ public class OrderParser {
         try {
             return Integer.parseInt(menuNumber);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
+        }
+    }
+
+    private void validateNumber(int parsedNumber) {
+        if (parsedNumber < MINIMUM_MENU_NUMBER) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
         }
     }
 }

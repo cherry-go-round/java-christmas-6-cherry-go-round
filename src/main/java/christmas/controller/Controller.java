@@ -7,6 +7,7 @@ import christmas.domain.date.EventDate;
 import christmas.domain.order.OrderParser;
 import christmas.domain.order.Orders;
 import christmas.service.Service;
+import christmas.util.ErrorOutput;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import java.time.LocalDate;
@@ -42,9 +43,7 @@ public class Controller {
         outputView.printStartMessage();
         LocalDate reservationDate = finallyGet(this::readDate);
 
-        String orderInput = inputView.readOrder();
-        OrderParser orderParser = new OrderParser();
-        Orders orders = orderParser.convert(orderInput);
+        Orders orders = finallyGet(this::readOrders);
 
         service = new Service(reservationDate, orders);
 
@@ -83,22 +82,30 @@ public class Controller {
         outputView.printExpectedAmountAfterDiscount(expectedAmount);
     }
 
-    private LocalDate readDate() {
-        int dayOfReservation = inputView.readDate();
-        return EventDate.convert(dayOfReservation);
-    }
-
     private void printBadge(AllBenefits benefits) {
         BadgeProvider badgeProvider = new BadgeProvider();
         Badge badge = badgeProvider.provide(benefits.totalBenefit());
         outputView.printBadge(badge.getName());
     }
 
+    private LocalDate readDate() {
+        int dayOfReservation = inputView.readDate();
+        return EventDate.convert(dayOfReservation);
+    }
+
+    private Orders readOrders() {
+        String orderInput = inputView.readOrder();
+        OrderParser orderParser = new OrderParser();
+        return orderParser.convert(orderInput);
+    }
+
     private <T> T finallyGet(Supplier<T> supplier) {
         while (true) {
             try {
                 return supplier.get();
-            } catch (IllegalArgumentException ignored) {
+            } catch (IllegalArgumentException exception) {
+                String message = exception.getMessage();
+                ErrorOutput.printError(message);
             }
         }
     }
