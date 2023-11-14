@@ -13,18 +13,18 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class BenefitServiceTest {
+class ServiceTest {
     @DisplayName("크리스마스 할인 예제")
     @Test
     void christmas_Discount_Test() {
         //given
         LocalDate christmas = LocalDate.of(2023, 12, 25);
-        BenefitService benefitService = new BenefitService();
-
-        //when
         Order order = new Order(Menu.CHOCOLATE_CAKE, 1);
         Orders orders = new Orders(List.of(order));
-        AllBenefits details = benefitService.getDetails(christmas, orders);
+        Service service = new Service(christmas, orders);
+
+        //when
+        AllBenefits details = service.getDetails();
         int totalDiscount = details.totalDiscount();
 
         //then
@@ -37,12 +37,12 @@ class BenefitServiceTest {
     void zero_Discount_If_Under_10_000() {
         //given
         LocalDate christmas = LocalDate.of(2023, 12, 25);
-        BenefitService benefitService = new BenefitService();
-
-        //when
         Order order = new Order(Menu.ICE_CREAM, 1);
         Orders orders = new Orders(List.of(order));
-        AllBenefits details = benefitService.getDetails(christmas, orders);
+        Service service = new Service(christmas, orders);
+
+        //when
+        AllBenefits details = service.getDetails();
         int totalDiscount = details.totalDiscount();
 
         //then
@@ -54,13 +54,13 @@ class BenefitServiceTest {
     void when_Total_Amount_Is_Greater_Than_120000_Then_giveaway() {
         //given
         LocalDate christmas = LocalDate.of(2023, 12, 25);
-        BenefitService benefitService = new BenefitService();
+        Order order = new Order(Menu.CHRISTMAS_PASTA, 6);
+        Orders orders = new Orders(List.of(order));
+        Service service = new Service(christmas, orders);
 
         //when
         //CHRISTMAS_PASTA: 25,000 * 6 = 150,000
-        Order order = new Order(Menu.CHRISTMAS_PASTA, 6);
-        Orders orders = new Orders(List.of(order));
-        AllBenefits details = benefitService.getDetails(christmas, orders);
+        AllBenefits details = service.getDetails();
 
         //then
         assertThat(details.totalDiscount()).isNotEqualTo(details.totalBenefit());
@@ -69,13 +69,14 @@ class BenefitServiceTest {
     @Test
     void getGiveawayComposition() {
         //given
-        BenefitService benefitService = new BenefitService();
+        LocalDate christmas = LocalDate.of(2023, 12, 25);
+        Order order = new Order(Menu.CHRISTMAS_PASTA, 6);
+        Orders orders = new Orders(List.of(order));
+        Service service = new Service(christmas, orders);
 
         //when
         //CHRISTMAS_PASTA: 25,000 * 6 = 150,000
-        Order order = new Order(Menu.CHRISTMAS_PASTA, 6);
-        Orders orders = new Orders(List.of(order));
-        Map<String, Integer> giveawayComposition = benefitService.getGiveawayComposition(orders);
+        Map<String, Integer> giveawayComposition = service.getGiveawayComposition();
 
         //then
         assertThat(giveawayComposition)

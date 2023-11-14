@@ -16,18 +16,39 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
 
-public class BenefitService {
+public class Service {
     private static final int MINIMUM_TOTAL_AMOUNT = 10_000;
     private static final int GIVEAWAY_AMOUNT = 120_000;
     private static final NoBenefit NONE = new NoBenefit();
 
-    private Benefit dDayDiscount = NONE;
-    private Benefit weekDiscount = NONE;
-    private Benefit specialDiscount = NONE;
-    private Benefit giveaway = NONE;
+    private final LocalDate reservationDate;
+    private final Orders orders;
 
-    public Map<String, Integer> getGiveawayComposition(Orders orders) {
-        judgeGiveaway(orders);
+    private final Benefit dDayDiscount;
+    private final Benefit weekDiscount;
+    private final Benefit specialDiscount;
+    private final Benefit giveaway;
+
+
+    public Service(LocalDate reservationDate, Orders orders) {
+        this.reservationDate = reservationDate;
+        this.orders = orders;
+
+        dDayDiscount = decideDDayDiscount();
+        weekDiscount = decideWeekDiscount();
+        specialDiscount = decideSpecialDiscount();
+        giveaway = decideGiveaway();
+    }
+
+    public Map<String, Integer> orderedMenu() {
+        return orders.orderedMenu();
+    }
+
+    public int totalAmount() {
+        return orders.totalAmount();
+    }
+
+    public Map<String, Integer> getGiveawayComposition() {
         if (giveaway instanceof NoBenefit) {
             return Collections.emptyMap();
         }
@@ -35,11 +56,7 @@ public class BenefitService {
         return converted.getGiveawayComposition();
     }
 
-    public AllBenefits getDetails(LocalDate reservationDate, Orders orders) {
-        checkTotalAmountAndDecideDiscount(reservationDate, orders);
-
-        judgeGiveaway(orders);
-
+    public AllBenefits getDetails() {
         return new AllBenefitsBuilder()
                 .dDayDiscount(dDayDiscount)
                 .weekDiscount(weekDiscount)
@@ -48,44 +65,50 @@ public class BenefitService {
                 .build();
     }
 
-    private void checkTotalAmountAndDecideDiscount(LocalDate reservationDate, Orders orders) {
-        if (orders.totalAmount() >= MINIMUM_TOTAL_AMOUNT) {
-            decideDDayDiscount(reservationDate);
-            decideWeekDiscount(reservationDate, orders);
-            decideSpecialDiscount(reservationDate);
+    private Benefit decideDDayDiscount() {
+        if (notSatisfiedMinimum()) {
+            return NONE;
         }
-    }
-
-    private void decideDDayDiscount(LocalDate reservationDate) {
         LocalDate lastDate = LocalDate.of(2023, 12, 25);
         if (reservationDate.isAfter(lastDate)) {
-            return;
+            return NONE;
         }
-        dDayDiscount = new DDayDiscount(reservationDate);
+        return new DDayDiscount(reservationDate);
     }
 
-    private void decideWeekDiscount(LocalDate reservationDate, Orders orders) {
+    private Benefit decideWeekDiscount() {
+        if (notSatisfiedMinimum()) {
+            return NONE;
+        }
         DayOfWeek dayOfWeek = reservationDate.getDayOfWeek();
         if (isWeekend(dayOfWeek)) {
-            weekDiscount = new WeekendDiscount(orders);
-            return;
+            return new WeekendDiscount(orders);
         }
-        weekDiscount = new WeekDayDiscount(orders);
+        return new WeekDayDiscount(orders);
     }
 
     private boolean isWeekend(DayOfWeek dayOfWeek) {
         return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
     }
 
-    private void decideSpecialDiscount(LocalDate reservationDate) {
-        if (StarDay.contains(reservationDate)) {
-            specialDiscount = new SpecialDiscount();
+    private Benefit decideSpecialDiscount() {
+        if (notSatisfiedMinimum()) {
+            return NONE;
         }
+        if (StarDay.contains(reservationDate)) {
+            return new SpecialDiscount();
+        }
+        return NONE;
     }
 
-    private void judgeGiveaway(Orders orders) {
+    private boolean notSatisfiedMinimum() {
+        return orders.totalAmount() < MINIMUM_TOTAL_AMOUNT;
+    }
+
+    private Benefit decideGiveaway() {
         if (orders.totalAmount() >= GIVEAWAY_AMOUNT) {
-            giveaway = new Giveaway();
+            return new Giveaway();
         }
+        return NONE;
     }
 }
