@@ -19,17 +19,7 @@ class BenefitDetailsTest {
         //given
         LocalDate localDate = LocalDate.of(2023, 12, 1);
         Orders orders = new Orders(List.of(new Order(Menu.CHOCOLATE_CAKE, 2)));
-
-        DDayDiscount dDayDiscount = new DDayDiscount(localDate);
-        WeekDayDiscount weekDayDiscount = new WeekDayDiscount(orders);
-        SpecialDiscount specialDiscount = new SpecialDiscount();
-        Giveaway giveaway = new Giveaway();
-
-        Benefits benefits = new BenefitsBuilder().dDayDiscount(dDayDiscount)
-                .weekDiscount(weekDayDiscount)
-                .specialDiscount(specialDiscount)
-                .giveaway(giveaway)
-                .build();
+        Benefits benefits = getBenefits(localDate, orders);
 
         //when
         Map<String, Integer> details = benefits.getDetails();
@@ -42,23 +32,26 @@ class BenefitDetailsTest {
                         entry("증정 이벤트", 25000));
     }
 
+    private static Benefits getBenefits(LocalDate localDate, Orders orders) {
+        DDayDiscount dDayDiscount = new DDayDiscount(localDate);
+        WeekDayDiscount weekDayDiscount = new WeekDayDiscount(orders);
+        SpecialDiscount specialDiscount = new SpecialDiscount();
+        Giveaway giveaway = new Giveaway();
+
+        return new BenefitsBuilder().dDayDiscount(dDayDiscount)
+                .weekDiscount(weekDayDiscount)
+                .specialDiscount(specialDiscount)
+                .giveaway(giveaway)
+                .build();
+    }
+
     @DisplayName("적용되지 않은 혜택은 반환되지 않는다.")
     @Test
     void when_Some_Benefits_Are_Not_Applied_Then_Not_Return_Them() {
         //given
         LocalDate localDate = LocalDate.of(2023, 12, 1);
         Orders orders = new Orders(List.of(new Order(Menu.CHOCOLATE_CAKE, 2)));
-
-        DDayDiscount dDayDiscount = new DDayDiscount(localDate);
-        WeekDayDiscount weekDayDiscount = new WeekDayDiscount(orders);
-        Benefit specialDiscount = new NoBenefit();
-        Benefit giveaway = new NoBenefit();
-
-        Benefits allBenefits = new BenefitsBuilder().dDayDiscount(dDayDiscount)
-                .weekDiscount(weekDayDiscount)
-                .specialDiscount(specialDiscount)
-                .giveaway(giveaway)
-                .build();
+        Benefits allBenefits = getAllBenefits(localDate, orders);
 
         //when
         Map<String, Integer> details = allBenefits.getDetails();
@@ -67,5 +60,18 @@ class BenefitDetailsTest {
         assertThat(details).hasSize(2)
                 .contains(entry("크리스마스 디데이 할인", 1000),
                         entry("평일 할인", 4046));
+    }
+
+    private static Benefits getAllBenefits(LocalDate localDate, Orders orders) {
+        DDayDiscount dDayDiscount = new DDayDiscount(localDate);
+        WeekDayDiscount weekDayDiscount = new WeekDayDiscount(orders);
+        Benefit specialDiscount = new NoBenefit();
+        Benefit giveaway = new NoBenefit();
+
+        return new BenefitsBuilder().dDayDiscount(dDayDiscount)
+                .weekDiscount(weekDayDiscount)
+                .specialDiscount(specialDiscount)
+                .giveaway(giveaway)
+                .build();
     }
 }
