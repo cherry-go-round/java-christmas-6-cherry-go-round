@@ -1,5 +1,6 @@
 package christmas.domain.benefit;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class Benefits {
         putBenefitDetails(details, specialDiscount);
         putBenefitDetails(details, giveaway);
 
-        return details;
+        return Collections.unmodifiableMap(details);
     }
 
     public int totalDiscount() {
