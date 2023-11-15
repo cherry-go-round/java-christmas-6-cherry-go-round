@@ -9,8 +9,7 @@ public class Benefits {
     private final Benefit specialDiscount;
     private final Benefit giveaway;
 
-    public Benefits(Benefit dDayDiscount, Benefit weekDiscount,
-                    Benefit specialDiscount, Benefit giveaway) {
+    public Benefits(Benefit dDayDiscount, Benefit weekDiscount, Benefit specialDiscount, Benefit giveaway) {
         this.dDayDiscount = dDayDiscount;
         this.weekDiscount = weekDiscount;
         this.specialDiscount = specialDiscount;
