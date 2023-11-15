@@ -9,9 +9,12 @@ class UtilTest {
     @DisplayName("notEmpty 메소드 테스트")
     @Test
     void notEmptyTest() {
+        //given
         String blank = "";
         ErrorMessage testMessage = ErrorMessage.INVALID_ORDER;
-        assertThatThrownBy(() -> Util.notEmpty("", testMessage))
+
+        //when-then
+        assertThatThrownBy(() -> Util.notEmpty(blank, testMessage))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(testMessage.getMessage());
     }
