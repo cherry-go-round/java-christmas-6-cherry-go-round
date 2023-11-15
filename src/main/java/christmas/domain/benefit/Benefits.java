@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Benefits {
-    Benefit dDayDiscount;
-    Benefit weekDiscount;
-    Benefit specialDiscount;
-    Benefit giveaway;
+    private final Benefit dDayDiscount;
+    private final Benefit weekDiscount;
+    private final Benefit specialDiscount;
+    private final Benefit giveaway;
 
     public Benefits(Benefit dDayDiscount, Benefit weekDiscount,
                     Benefit specialDiscount, Benefit giveaway) {
