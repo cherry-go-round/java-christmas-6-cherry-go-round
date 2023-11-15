@@ -94,4 +94,46 @@ class OrderParserTest {
         assertThatThrownBy(() -> orderParser.convert(input))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @DisplayName("없는 메뉴를 입력하면 예외를 반환한다.")
+    @Test
+    void throw_Exception_When_Invalid_Menu() {
+        //given
+        OrderParser orderParser = new OrderParser();
+
+        //when
+        String input = "라자냐-1,제로콜라-2";
+
+        //then
+        assertThatThrownBy(() -> orderParser.convert(input))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("총 메뉴 개수를 20개 초과로 입력하면 예외를 반환한다.")
+    @Test
+    void throw_Exception_When_Menu_Number_Over_20() {
+        //given
+        OrderParser orderParser = new OrderParser();
+
+        //when
+        String input = "타파스-10,제로콜라-11";
+
+        //then
+        assertThatThrownBy(() -> orderParser.convert(input))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("메뉴를 1개 미만으로 입력하면 예외를 반환한다.")
+    @Test
+    void throw_Exception_When_Menu_Number_Under_1() {
+        //given
+        OrderParser orderParser = new OrderParser();
+
+        //when
+        String input = "타파스-0";
+
+        //then
+        assertThatThrownBy(() -> orderParser.convert(input))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
